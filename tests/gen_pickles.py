@@ -1,6 +1,6 @@
 import pickle
 
-from multidict._compat import USE_CYTHON
+from multidict._compat import USE_C_EXTENSIONS
 
 try:
     from multidict._multidict import MultiDict, CIMultiDict  # noqa
@@ -19,8 +19,9 @@ def write(name, proto):
 
 
 def generate():
-    if not USE_CYTHON:
-        raise RuntimeError("Cython is required")
+    if not USE_C_EXTENSIONS:
+        # TODO: mb this useless and should be refactored
+        raise RuntimeError("C is required")
     for proto in range(pickle.HIGHEST_PROTOCOL + 1):
         for name in ('MultiDict', 'CIMultiDict',
                      'PyMultiDict', 'PyCIMultiDict'):

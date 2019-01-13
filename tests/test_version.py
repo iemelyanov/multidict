@@ -1,8 +1,8 @@
 import pytest
 
-from multidict._compat import USE_CYTHON
+from multidict._compat import USE_C_EXTENSIONS
 
-if USE_CYTHON:
+if USE_C_EXTENSIONS:
     from multidict._multidict import MultiDict, CIMultiDict, getversion
 
 from multidict._multidict_py import (MultiDict as _MultiDict,  # noqa: E402
@@ -157,7 +157,7 @@ class VersionMixin:
         assert self.getver(m) == v
 
 
-if USE_CYTHON:
+if USE_C_EXTENSIONS:
     class TestMultiDict(VersionMixin):
 
         cls = MultiDict
@@ -166,7 +166,7 @@ if USE_CYTHON:
             return getversion(md)
 
 
-if USE_CYTHON:
+if USE_C_EXTENSIONS:
     class TestCIMultiDict(VersionMixin):
 
         cls = CIMultiDict

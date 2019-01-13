@@ -5,7 +5,7 @@ multidict. It behaves mostly like a dict but it can have
 several values for the same key.
 """
 
-from ._compat import USE_CYTHON_EXTENSIONS
+from ._compat import USE_C_EXTENSIONS
 
 
 __all__ = ('MultiMapping', 'MutableMultiMapping',
@@ -18,7 +18,7 @@ __version__ = '4.5.2'
 from ._abc import MultiMapping, MutableMultiMapping
 
 try:
-    if not USE_CYTHON_EXTENSIONS:
+    if not USE_C_EXTENSIONS:
         raise ImportError
     from ._multidict import (MultiDictProxy,
                              CIMultiDictProxy,

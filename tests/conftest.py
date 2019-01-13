@@ -2,15 +2,15 @@ import pickle
 
 import pytest
 
-from multidict._compat import USE_CYTHON_EXTENSIONS
+from multidict._compat import USE_C_EXTENSIONS
 
 
-OPTIONAL_CYTHON = (() if USE_CYTHON_EXTENSIONS else
-                   pytest.mark.skip(reason='No Cython extensions available'))
+OPTIONAL_C = (() if USE_C_EXTENSIONS else
+                   pytest.mark.skip(reason='No C extensions available'))
 
 
 @pytest.fixture(scope='session', params=[
-    pytest.param('multidict._multidict', marks=OPTIONAL_CYTHON),
+    pytest.param('multidict._multidict', marks=OPTIONAL_C),
     'multidict._multidict_py'
 ])
 def _multidict(request):

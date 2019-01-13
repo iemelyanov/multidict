@@ -3,9 +3,9 @@ import sys
 
 import pytest
 
-from multidict._compat import USE_CYTHON
+from multidict._compat import USE_C_EXTENSIONS
 
-if USE_CYTHON:
+if USE_C_EXTENSIONS:
     from multidict._multidict import istr
 
 from multidict._multidict_py import istr as _istr  # noqa: E402
@@ -83,6 +83,6 @@ class TestPyIStr(IStrMixin):
         assert abs(cnt - cnt2) < 10  # on PyPy these numbers are not equal
 
 
-if USE_CYTHON:
+if USE_C_EXTENSIONS:
     class TestIStr(IStrMixin):
         cls = istr

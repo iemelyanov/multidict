@@ -3,9 +3,9 @@ import pickle
 
 import pytest
 
-from multidict._compat import USE_CYTHON
+from multidict._compat import USE_C_EXTENSIONS
 
-if USE_CYTHON:
+if USE_C_EXTENSIONS:
     from multidict._multidict import (MultiDict, CIMultiDict,
                                       MultiDictProxy, CIMultiDictProxy)
 
@@ -20,7 +20,7 @@ here = Path(__file__).resolve().parent
 @pytest.fixture(
     params=(
         ['MultiDict', 'CIMultiDict']
-        if USE_CYTHON else
+        if USE_C_EXTENSIONS else
         []
     ) +
     ['PyMultiDict', 'PyCIMultiDict']
@@ -35,7 +35,7 @@ def cls_name(request):
             MultiDict,
             CIMultiDict,
         ]
-        if USE_CYTHON else
+        if USE_C_EXTENSIONS else
         []
     ) +
     [
@@ -47,7 +47,7 @@ def cls_name(request):
             'MultiDict',
             'CIMultiDict',
         ]
-        if USE_CYTHON else
+        if USE_C_EXTENSIONS else
         []
     ) +
     [
@@ -65,7 +65,7 @@ def cls(request):
             (MultiDictProxy, MultiDict),
             (CIMultiDictProxy, CIMultiDict),
         ]
-        if USE_CYTHON else
+        if USE_C_EXTENSIONS else
         []
     ) +
     [
@@ -77,7 +77,7 @@ def cls(request):
             'MultiDictProxy',
             'CIMultiDictProxy',
         ]
-        if USE_CYTHON else
+        if USE_C_EXTENSIONS else
         []
     ) +
     [

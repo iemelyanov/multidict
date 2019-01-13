@@ -2,9 +2,9 @@ import copy
 
 import pytest
 
-from multidict._compat import USE_CYTHON
+from multidict._compat import USE_C_EXTENSIONS
 
-if USE_CYTHON:
+if USE_C_EXTENSIONS:
     from multidict._multidict import (MultiDict, CIMultiDict,
                                       MultiDictProxy, CIMultiDictProxy)
 
@@ -20,7 +20,7 @@ from multidict._multidict_py import (MultiDict as PyMultiDict,  # noqa: E402
             MultiDict,
             CIMultiDict,
         ]
-        if USE_CYTHON else
+        if USE_C_EXTENSIONS else
         []
     ) +
     [
@@ -32,7 +32,7 @@ from multidict._multidict_py import (MultiDict as PyMultiDict,  # noqa: E402
             'MultiDict',
             'CIMultiDict',
         ]
-        if USE_CYTHON else
+        if USE_C_EXTENSIONS else
         []
     ) +
     [
@@ -50,7 +50,7 @@ def cls(request):
             (MultiDictProxy, MultiDict),
             (CIMultiDictProxy, CIMultiDict),
         ]
-        if USE_CYTHON else
+        if USE_C_EXTENSIONS else
         []
     ) +
     [
@@ -62,7 +62,7 @@ def cls(request):
             'MultiDictProxy',
             'CIMultiDictProxy',
         ]
-        if USE_CYTHON else
+        if USE_C_EXTENSIONS else
         []
     ) +
     [
