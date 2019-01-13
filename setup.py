@@ -10,15 +10,6 @@ from distutils.errors import (CCompilerError, DistutilsExecError,
                               DistutilsPlatformError)
 from distutils.command.build_ext import build_ext
 
-try:
-    from Cython.Build import cythonize
-    USE_CYTHON = True
-except ImportError:
-    USE_CYTHON = False
-
-
-PROFILE_BUILD = bool(os.environ.get('PROFILE_BUILD'))
-"""Flag whether extensions should be built with profiling enabled."""
 
 NO_EXTENSIONS = bool(os.environ.get('MULTIDICT_NO_EXTENSIONS'))
 """Flag whether extensions building/usage should be skipped."""
@@ -26,7 +17,7 @@ NO_EXTENSIONS = bool(os.environ.get('MULTIDICT_NO_EXTENSIONS'))
 PYPY = platform.python_implementation() == 'PyPy'
 """Flag whether we are in PyPy runtime."""
 
-USE_CYTHON_EXTENSIONS = not NO_EXTENSIONS and not PYPY
+USE_C_EXTENSIONS = not NO_EXTENSIONS and not PYPY
 """Flag whether prerequisites for building extensions are met."""
 
 here = pathlib.Path(__file__).parent
@@ -36,7 +27,7 @@ IS_GIT_REPO = (here / '.git').exists()
 """Flag whether we are in Git repo."""
 
 ignore_compile_excs = (
-    () if USE_CYTHON_EXTENSIONS and IS_GIT_REPO
+    () if USE_C_EXTENSIONS and IS_GIT_REPO
     else (CCompilerError, )
 ) + (DistutilsExecError, DistutilsPlatformError, ValueError)
 """Exceptions to ignore during compilation."""
@@ -46,22 +37,8 @@ extensions = []
 cmdclass = {}
 
 
-# TODO: rewrite me for use C extension insted cython
-if USE_CYTHON_EXTENSIONS:
-
-    if IS_GIT_REPO and not USE_CYTHON:
-        print("Install cython when building from git clone",
-              file=sys.stderr)
-        print("Hint:", file=sys.stderr)
-        print("  pip install cython", file=sys.stderr)
-        sys.exit(1)
-
-    ext = '.pyx' if USE_CYTHON else '.c'
-
-    if PROFILE_BUILD:
-        macros = [('CYTHON_TRACE', '1')]
-    else:
-        macros = []
+if USE_C_EXTENSIONS:
+    ext = '.c'
 
     CFLAGS = ['-O2']
     # CFLAGS = ['-g']
